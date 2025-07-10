@@ -10,8 +10,6 @@ from app.routes.cali import cali
 from app.routes.inventario import inventario
 from app.routes.perfil import perfil
 from app.config import Config
-import pymysql
-pymysql.install_as_MySQLdb()
 
 mysql = MySQL()
 
