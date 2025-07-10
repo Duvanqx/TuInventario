@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TuInventario - Perfil</title>
+  <link href="{{ url_for('static', filename='css/output.css') }}" rel="stylesheet">
+</head>
+
+
+<body class="flex flex-col min-h-screen bg-white font-sans text-gray-800">
+
+
+  <nav class="bg-indigo-700 shadow-lg sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        <a href="/" class="text-white text-2xl font-bold hover:text-purple-300 transition">TuInventario</a>
+        <button id="menuToggle" class="text-white sm:hidden focus:outline-none">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+        <ul class="hidden sm:flex space-x-4 text-sm font-medium text-white">
+          <li><a href="/" class="hover:text-purple-200 transition">🏠 Inicio</a></li>
+          <li><a href="/ver_inventario" class="hover:text-purple-200 transition">📦 Inventario</a></li>
+          <li><a href="/ver_catalogo" class="hover:text-purple-200 transition">📑 Catálogos</a></li>
+          <li><a href="/ver_cliente" class="hover:text-purple-200 transition">👥 Clientes</a></li>
+          <li><a href="/cuenta" class="hover:text-purple-200 transition">👤 Cuenta</a></li>
+          <li><a href="/logout" class="text-red-300 hover:text-red-400 transition">🔓 Salir</a></li>
+        </ul>
+      </div>
+      <div id="mobileMenu" class="sm:hidden hidden flex-col space-y-2 pt-4 pb-4 text-white text-sm">
+        <a href="/" class="block px-3 py-2 hover:bg-indigo-600 rounded">🏠 Inicio</a>
+        <a href="/ver_inventario" class="block px-3 py-2 hover:bg-indigo-600 rounded">📦 Inventario</a>
+        <a href="/ver_catalogo" class="block px-3 py-2 hover:bg-indigo-600 rounded">📑 Catálogos</a>
+        <a href="/ver_cliente" class="block px-3 py-2 hover:bg-indigo-600 rounded">👥 Clientes</a>
+        <a href="/ver_perfil" class="block px-3 py-2 hover:bg-indigo-600 rounded">👤 Cuenta</a>
+        <a href="/logout" class="block px-3 py-2 hover:bg-red-600 rounded">🔓 Salir</a>
+      </div>
+    </div>
+  </nav>
+
+
+  <script>
+    const toggle = document.getElementById('menuToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+    toggle.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+  </script>
+
+<main class="flex items-center justify-center py-10 px-4 sm:px-6 lg:px-8 bg-white">
+  <div class="bg-white shadow-xl rounded-2xl overflow-hidden w-full max-w-2xl transform transition hover:scale-[1.02] duration-300">
+    <div class="bg-gradient-to-r from-indigo-700 to-purple-600 p-6 text-white text-center">
+      <h2 class="text-3xl font-bold">✏️ Editar Perfil</h2>
+      <p class="text-sm mt-1">Modifica tus datos personales</p>
+    </div>
+
+    {% for u in usuario %}
+    <form method="POST" class="p-6 space-y-6">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-700 text-sm">
+        <div>
+          <label for="nombres" class="block font-semibold text-gray-500">Nombres:</label>
+          <input type="text" id="nombres" name="nombres" value="{{ u[1] }}"
+                 class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 transition">
+        </div>
+        <div>
+          <label for="apellidos" class="block font-semibold text-gray-500">Apellidos:</label>
+          <input type="text" id="apellidos" name="apellidos" value="{{ u[2] }}"
+                 class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 transition">
+        </div>
+        <div>
+          <label for="telefono" class="block font-semibold text-gray-500">Teléfono:</label>
+          <input type="tel" id="telefono" name="telefono" value="{{ u[3] }}"
+                 class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 transition">
+        </div>
+        <div>
+          <label for="correo" class="block font-semibold text-gray-500">Correo:</label>
+          <input type="email" id="correo" name="correo" value="{{ u[4] }}"
+                 class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 transition">
+        </div>
+      </div>
+
+      <div class="flex justify-center gap-4 mt-6">
+        <button type="submit"
+                class="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white text-sm rounded-full shadow hover:bg-indigo-500 transition">
+          💾 Guardar Cambios
+        </button>
+        <a href="/ver_perfil"
+           class="flex items-center gap-2 px-4 py-2 bg-gray-300 text-gray-800 text-sm rounded-full shadow hover:bg-gray-200 transition">
+          🔙 Cancelar
+        </a>
+      </div>
+    </form>
+    {% endfor %}
+  </div>
+</main>
+
+
+
+  <footer class="bg-gray-200 mt-auto py-4 text-center text-sm text-gray-600">
+    &copy; {{ year }} TuInventario. Todos los derechos reservados.
+  </footer>
+</body>
+
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TuInventario - Editar Cliente</title>
+  <link href="{{ url_for('static', filename='css/output.css') }}" rel="stylesheet">
+</head>
+
+<body class="min-h-screen bg-gradient-to-br from-gray-100 via-purple-50 to-indigo-100 font-sans text-gray-800">
+
+  <header>
+    <nav class="bg-indigo-700 shadow-lg sticky top-0 z-50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+          <a href="/" class="text-white text-2xl font-bold hover:text-purple-300 transition">TuInventario</a>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+
+  <main class="max-w-md mx-auto mt-10 px-4 sm:px-6">
+    <div class="bg-white shadow-lg rounded-xl p-6">
+      <h1 class="text-lg font-semibold text-indigo-700 mb-4">👤 Editar Cliente</h1>
+      <form method="POST" class="space-y-5">
+        {% for cli in cliente %}
+
+        <div>
+          <label for="nombre_completo" class="block text-sm font-medium mb-1">📝 Nombre completo</label>
+          <input type="text" name="nombre_completo" id="nombre_completo" value="{{ cli[2] }}"
+                 class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500" />
+        </div>
+
+
+        <div>
+          <label for="telefono" class="block text-sm font-medium mb-1">📞 Teléfono</label>
+          <input type="tel" name="telefono" id="telefono" value="{{ cli[3] }}"
+                 class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500" />
+        </div>
+
+        <div>
+          <label for="direccion" class="block text-sm font-medium mb-1">🏠 Dirección</label>
+          <input type="text" name="direccion" id="direccion" value="{{ cli[4] }}"
+                 class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500" />
+        </div>
+
+
+        <div class="pt-2">
+          <button type="submit"
+                  class="w-full bg-green-500 text-white font-semibold py-2 rounded-md hover:bg-green-600 transition">
+            ✅ Guardar Cambios
+          </button>
+        </div>
+        {% endfor %}
+      </form>
+    </div>
+  </main>
+
+</body>
+</html>

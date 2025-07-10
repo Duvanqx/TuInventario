@@ -1,0 +1,63 @@
+# ─────────🐍 Python y entornos─────────
+*.py[cod]
+__pycache__/
+*.pyo
+*$py.class
+
+# Bases de datos locales
+*.db
+*.sqlite3
+
+# Entornos virtuales
+venv/
+.venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# Variables de entorno y secretos
+.env
+.env.*
+*.env.local
+
+# ─────────🔧 Flask & Logs─────────
+instance/
+*.log
+*.pid
+*.coverage
+.coverage.*
+htmlcov/
+
+# ─────────🧵 Tailwind / CSS compilado─────────
+# Si estás generando `output.css` automáticamente con Tailwind
+
+*.map
+
+# Solo ignora la configuración si no la necesitas en producción
+# (Si compilas el CSS en el servidor, no ignores estos archivos)
+# tailwind.config.js
+# postcss.config.js
+
+# ─────────📦 Node / npm─────────
+node_modules/
+package-lock.json
+pnpm-lock.yaml
+dist/
+build/
+
+# ─────────🔒 Editor y sistema─────────
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+.DS_Store
+Thumbs.db
+
+# ─────────🗂️ Archivos temporales y backups─────────
+*.tmp
+*.bak
+*.swp
+*.orig
+*.oldz
+

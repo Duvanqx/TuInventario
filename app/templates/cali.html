@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TuInventario - Resumen</title>
+    <link href="{{ url_for('static', filename='css/output.css') }}" rel="stylesheet">
+</head>
+
+
+<body
+    class="flex flex-col min-h-screen bg-gradient-to-tr from-gray-100 via-purple-50 to-indigo-100 font-sans text-gray-800">
+
+
+    <nav class="bg-indigo-700 shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="/" class="text-white text-2xl font-bold hover:text-purple-300 transition">TuInventario</a>
+                <button id="menuToggle" class="text-white sm:hidden focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+                <ul class="hidden sm:flex space-x-4 text-sm font-medium text-white">
+                    <li><a href="/" class="hover:text-purple-200 transition">🏠 Inicio</a></li>
+                    <li><a href="/ver_inventario" class="hover:text-purple-200 transition">📦 Inventario</a></li>
+                    <li><a href="/ver_catalogo" class="hover:text-purple-200 transition">📑 Catálogos</a></li>
+                    <li><a href="/ver_cliente" class="hover:text-purple-200 transition">👥 Clientes</a></li>
+                    <li><a href="/ver_perfil" class="hover:text-purple-200 transition">👤 Cuenta</a></li>
+                    <li><a href="/logout" class="text-red-300 hover:text-red-400 transition">🔓 Salir</a></li>
+                </ul>
+            </div>
+            <div id="mobileMenu" class="sm:hidden hidden flex-col space-y-2 pt-4 pb-4 text-white text-sm">
+                <a href="/" class="block px-3 py-2 hover:bg-indigo-600 rounded">🏠 Inicio</a>
+                <a href="/ver_inventario" class="block px-3 py-2 hover:bg-indigo-600 rounded">📦 Inventario</a>
+                <a href="/ver_catalogo" class="block px-3 py-2 hover:bg-indigo-600 rounded">📑 Catálogos</a>
+                <a href="/ver_cliente" class="block px-3 py-2 hover:bg-indigo-600 rounded">👥 Clientes</a>
+                <a href="/ver_perfil" class="block px-3 py-2 hover:bg-indigo-600 rounded">👤 Cuenta</a>
+                <a href="/logout" class="block px-3 py-2 hover:bg-red-600 rounded">🔓 Salir</a>
+            </div>
+        </div>
+    </nav>
+
+
+    <script>
+        const toggle = document.getElementById('menuToggle');
+        const mobileMenu = document.getElementById('mobileMenu');
+        toggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+    </script>
+
+
+    <main class="p-6">
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-2xl font-semibold text-indigo-700">Clientes deudores</h1>
+            <a href="/agregar_cali/{{ id_catalogo }}"
+                class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded shadow-md transition">
+                ➕ Registrar cliente y saldo
+            </a>
+
+        </div>
+
+
+        <div class="overflow-x-auto rounded shadow-md">
+            <table class="min-w-full bg-white">
+                <thead class="bg-indigo-100 text-indigo-800 text-sm font-semibold">
+                    <tr>
+                        <th class="px-4 py-2 text-left">Cliente</th>
+                        <th class="px-4 py-2 text-left">Adeudado</th>
+                        <th class="px-4 py-2 text-left">Paga</th>
+                        <th class="px-4 py-2 text-left">Total abonado</th>
+                        <th class="px-4 py-2 text-left">Total Debe</th>
+                        <th class="px-4 py-2 text-left">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody class="text-gray-700 text-sm">
+                    {% for cl in calis %}
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-4 py-2 font-medium">{{ cl[3] }}</td>
+                        <td class="px-4 py-2 text-red-700 font-semibold">
+                            ${{ "{:,.0f}".format(cl[5]) | replace(",", ".") }}
+                        </td>
+                        <td class="px-4 py-2">
+                            <form method="POST" class="flex items-center space-x-2">
+                                <input type="hidden" name="id_cali" value="{{ cl[4] }}">
+
+                                <input type="text" name="abono" placeholder="$0" inputmode="decimal"
+                                    class="w-32 px-3 py-2 border border-gray-300 rounded-md text-sm text-gray-800 focus:ring-2 focus:ring-green-500 transition"
+                                    oninput="this.value = formatCOP(this.value)" />
+
+                                <button type="submit"
+                                    class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-sm shadow-sm transition">
+                                    Guardar
+                                </button>
+                            </form>
+                        </td>
+                        <td class="px-4 py-2 text-green-700 font-medium">
+                            ${{ "{:,.0f}".format(cl[6]) | replace(",", ".") }}
+                        </td>
+                        <td class="px-4 py-2 text-red-700 font-semibold">
+                            ${{ "{:,.0f}".format(cl[7]) | replace(",", ".") }}
+                        </td>
+                        <td class="px-4 py-2">
+                            <div class="flex flex-wrap gap-2 justify-start sm:justify-center">
+                                <a href="/editar_cali/{{ cl[4] }}"
+                                    class="flex items-center gap-1 px-2 py-1 bg-yellow-100 text-yellow-700 hover:bg-yellow-200 rounded text-xs font-medium transition">
+                                    ✏️ Editar
+                                </a>
+                                <a href="/eliminar_cali/{{ cl[4] }}"
+                                    class="flex items-center gap-1 px-2 py-1 bg-red-100 text-red-700 hover:bg-red-200 rounded text-xs font-medium transition">
+                                    🗑️ Eliminar
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+
+
+    <footer class="bg-gray-200 mt-auto py-4 text-center text-sm text-gray-600">
+        &copy; {{ year }} TuInventario. Todos los derechos reservados.
+    </footer>
+
+    <script>
+        function formatCOP(valor) {
+            // Quita todo lo que no sea número ni coma
+            valor = valor.replace(/[^\d,]/g, "");
+
+            // Divide entre parte entera y decimales
+            const partes = valor.split(",");
+
+            // Aplica puntos a la parte entera
+            partes[0] = partes[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+
+            return partes.join(",");
+        }
+    </script>
+
+</body>
+
+</html>

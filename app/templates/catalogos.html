@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TuInventario - Catálogos</title>
+  <link href="{{ url_for('static', filename='css/output.css') }}" rel="stylesheet">
+</head>
+
+<body
+    class="flex flex-col min-h-screen bg-gradient-to-tr from-gray-100 via-purple-50 to-indigo-100 font-sans text-gray-800">
+
+
+  <nav class="bg-indigo-700 shadow-lg sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        <a href="/" class="text-white text-2xl font-bold hover:text-purple-300 transition">TuInventario</a>
+        <button id="menuToggle" class="text-white sm:hidden focus:outline-none">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+        <ul class="hidden sm:flex space-x-4 text-sm font-medium text-white">
+          <li><a href="/" class="hover:text-purple-200 transition">🏠 Inicio</a></li>
+          <li><a href="/ver_inventario" class="hover:text-purple-200 transition">📦 Inventario</a></li>
+          <li><a href="/ver_catalogo" class="hover:text-purple-200 transition">📑 Catálogos</a></li>
+          <li><a href="/ver_cliente" class="hover:text-purple-200 transition">👥 Clientes</a></li>
+          <li><a href="/ver_perfil" class="hover:text-purple-200 transition">👤 Cuenta</a></li>
+          <li><a href="/logout" class="text-red-300 hover:text-red-400 transition">🔓 Salir</a></li>
+        </ul>
+      </div>
+      <div id="mobileMenu" class="sm:hidden hidden flex-col space-y-2 pt-4 pb-4 text-white text-sm">
+        <a href="/" class="block px-3 py-2 hover:bg-indigo-600 rounded">🏠 Inicio</a>
+        <a href="/ver_inventario" class="block px-3 py-2 hover:bg-indigo-600 rounded">📦 Inventario</a>
+        <a href="/ver_catalogo" class="block px-3 py-2 hover:bg-indigo-600 rounded">📑 Catálogos</a>
+        <a href="/ver_cliente" class="block px-3 py-2 hover:bg-indigo-600 rounded">👥 Clientes</a>
+        <a href="/ver_perfil" class="block px-3 py-2 hover:bg-indigo-600 rounded">👤 Cuenta</a>
+        <a href="/logout" class="block px-3 py-2 hover:bg-red-600 rounded">🔓 Salir</a>
+      </div>
+    </div>
+  </nav>
+
+  <script>
+    document.getElementById('menuToggle').addEventListener('click', () => {
+      document.getElementById('mobileMenu').classList.toggle('hidden');
+    });
+  </script>
+
+
+  <main>
+    <div class="max-w-5xl mx-auto mt-8 px-4">
+      <a href="/agregar_catalogo"
+        class="inline-block bg-indigo-600 text-white px-5 py-2 rounded-md hover:bg-indigo-700 shadow transition">
+        ➕ Agregar catálogo
+      </a>
+    </div>
+
+    <section class="max-w-7xl mx-auto px-4 mt-10 grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
+      {% for c in catalogos %}
+      <div
+        class="relative group bg-white rounded-2xl border border-gray-200 shadow hover:shadow-xl p-4 flex flex-col min-h-[360px] transition duration-300 ease-in-out">
+
+
+        <a href="/ver_cali/{{ c[0] }}" class="block space-y-3">
+          <img
+            src="{{ url_for('static', filename=c[6].replace('\\', '/').split('static/')[-1]) if c[6] else url_for('static', filename='img/no-image.png') }}"
+            alt="Imagen del catálogo"
+            class="h-40 w-full object-cover rounded-xl ring-1 ring-gray-100 hover:ring-indigo-300 transition mb-3" />
+
+          <h3 class="text-indigo-700 font-semibold text-xl leading-snug line-clamp-2">📑 {{ c[2] }}</h3>
+          <div class="text-base text-gray-700 space-y-1.5">
+            <p><span class="font-semibold text-gray-800">📅 Inicio:</span> {{ c[3].strftime('%d %b %Y') }}</p>
+            <p><span class="font-semibold text-gray-800">🛑 Fin:</span> {{ c[4].strftime('%d %b %Y') }}</p>
+
+            {% set dias = (c[5] - hoy).days %}
+            <p>
+              <span class="font-semibold text-gray-800">💰 Pago:</span>
+              <span
+                class="font-semibold {% if dias == 0 %} text-red-800 {% elif dias > 0 and dias <= 3 %} text-orange-600 {% else %} text-green-700 {% endif %}">
+                {{ c[5].strftime('%d %b %Y') }}
+              </span>
+            </p>
+
+          </div>
+        </a>
+
+
+        <div class=" absolute bottom-4 left-1/2 -translate-x-1/2 flex justify-center gap-2 z-20">
+          <a href="/editar_catalogo/{{ c[0] }}" title="Editar catálogo"
+            class="w-9 h-9 bg-yellow-400 text-white rounded-full flex items-center justify-center text-base hover:bg-yellow-500 transition">✏️</a>
+          <a href="/eliminar_catalogo/{{ c[0] }}" title="Eliminar catálogo"
+            class="w-9 h-9 bg-red-500 text-white rounded-full flex items-center justify-center text-base hover:bg-red-600 transition">🗑️</a>
+        </div>
+      </div>
+      {% endfor %}
+    </section>
+  </main>
+
+
+  <footer class="bg-gray-200 mt-auto py-4 text-center text-sm text-gray-600">
+    &copy; {{ year }} TuInventario. Todos los derechos reservados.
+  </footer>
+
+</body>
+
+</html>

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TuInventario - Inicio</title>
+  <link href="{{ url_for('static', filename='css/output.css') }}" rel="stylesheet">
+
+  <style>
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .animate-fadeUp {
+      animation: fadeUp 0.6s ease-out forwards;
+    }
+  </style>
+</head>
+
+<body
+  class="flex flex-col min-h-screen bg-gradient-to-tr from-gray-100 via-purple-50 to-indigo-100 font-sans overflow-x-hidden">
+
+
+  <nav class=" bg-indigo-700 shadow-lg sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+
+        <a href="/" class="text-white text-2xl font-bold tracking-wide hover:text-purple-300 transition">
+          TuInventario
+        </a>
+
+
+        <button id="menuToggle" class="text-white sm:hidden focus:outline-none">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+
+
+        <ul class="hidden sm:flex space-x-4 text-sm font-medium text-white">
+          {% if usuario_id %}
+          <li><a href="/ver_inventario" class="hover:text-purple-200 transition">📦 Inventario</a></li>
+          <li><a href="/ver_catalogo" class="hover:text-purple-200 transition">📑 Catálogos</a></li>
+          <li><a href="/ver_cliente" class="hover:text-purple-200 transition">👥 Clientes</a></li>
+          <li><a href="/ver_perfil" class="hover:text-purple-200 transition">👤 Cuenta</a></li>
+          <li><a href="/logout" class="text-red-300 hover:text-red-400 transition">🔓 Salir</a></li>
+          {% else %}
+          <li>
+            <a href="/iniciar_sesion"
+              class="bg-indigo-700 px-3 py-1 rounded-lg shadow-md border border-indigo-800 hover:ring-2 hover:ring-purple-400 transition">
+              🔐 Iniciar Sesión
+            </a>
+          </li>
+          <li>
+            <a href="/registro"
+              class="bg-pink-600 px-3 py-1 rounded-lg shadow-md border border-pink-700 hover:ring-2 hover:ring-yellow-400 transition">
+              📝 Registrarse
+            </a>
+          </li>
+          {% endif %}
+        </ul>
+
+      </div>
+
+      <div id="mobileMenu" class="sm:hidden hidden flex-col space-y-2 pt-4 pb-4 text-white text-sm">
+        {% if usuario_id %}
+        <a href="/ver_inventario" class="block px-3 py-2 hover:bg-indigo-600 rounded">📦 Inventario</a>
+        <a href="/ver_catalogo" class="block px-3 py-2 hover:bg-indigo-600 rounded">📑 Catálogos</a>
+        <a href="/ver_cliente" class="block px-3 py-2 hover:bg-indigo-600 rounded">👥 Clientes</a>
+        <a href="/ver_perfil" class="block px-3 py-2 hover:bg-indigo-600 rounded">👤 Cuenta</a>
+        <a href="/logout" class="block px-3 py-2 hover:bg-red-600 rounded">🔓 Salir</a>
+        {% else %}
+        <a href="/iniciar_sesion"
+          class="block w-full text-center px-3 py-2 bg-indigo-700 rounded-lg shadow-md border border-indigo-800 hover:ring-2 hover:ring-purple-400 transition">
+          🔐 Iniciar Sesión
+        </a>
+        <a href="/registro"
+          class="block w-full text-center px-3 py-2 bg-pink-600 rounded-lg shadow-md border border-pink-700 hover:ring-2 hover:ring-yellow-400 transition">
+          📝 Registrarse
+        </a>
+        {% endif %}
+      </div>
+    </div>
+  </nav>
+
+  <script>
+    const toggle = document.getElementById('menuToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+    toggle.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+  </script>
+
+
+  <header class="flex flex-col items-center justify-center text-center py-8 animate-fadeUp">
+    <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo"
+      class="h-28 w-28 rounded-full border-4 border-indigo-300 shadow-md object-contain mb-4" />
+
+    {% if usuario_id %}
+    <h1 class="text-3xl font-bold text-indigo-700">¡Hola {{ nombres }} 👋!</h1>
+    <p class="text-lg text-indigo-700 mt-2 max-w-xl mx-auto leading-relaxed animate-fadeUp">
+      ✨ Bienvenido de nuevo. Administra tu inventario y clientes desde cualquier lugar con una experiencia ágil, visual
+      y optimizada.
+    </p>
+    {% else %}
+    <h1 class="text-4xl font-bold text-indigo-700 animate-fadeUp">Bienvenido a TuInventario</h1>
+    <p class="text-gray-700 text-lg max-w-xl mx-auto animate-fadeUp">
+      Gestiona tu inventario y clientes desde cualquier lugar de forma rápida y eficiente.
+    </p>
+    {% endif %}
+  </header>
+
+
+  <main class="flex-grow max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center animate-fadeUp">
+
+    <div class="flex justify-center flex-wrap gap-4 mb-10 animate-fadeUp">
+      {% if usuario_id %}
+      <div class="flex justify-center flex-wrap gap-4 mt-8 animate-fadeUp">
+        <a href="/ver_catalogo"
+          class="flex items-center gap-2 bg-indigo-600 text-white px-5 py-2 rounded-md hover:bg-indigo-700 shadow transition">
+          📑 Ver Catálogos
+        </a>
+        <a href="/ver_inventario"
+          class="flex items-center gap-2 bg-purple-600 text-white px-5 py-2 rounded-md hover:bg-purple-700 shadow transition">
+          📦 Ver Inventario
+        </a>
+        <a href="/ver_cliente"
+          class="flex items-center gap-2 bg-teal-600 text-white px-5 py-2 rounded-md hover:bg-teal-700 shadow transition">
+          👥 Clientes
+        </a>
+      </div>
+      {% else %}
+      <a href="/iniciar_sesion"
+        class="bg-white text-indigo-700 px-6 py-2 rounded-md hover:bg-indigo-100 shadow transition transform hover:scale-105">
+        🔐 Iniciar Sesión
+      </a>
+      <a href="/registro"
+        class="bg-white text-purple-700 px-6 py-2 rounded-md hover:bg-purple-100 shadow transition transform hover:scale-105">
+        📝 Registrarse
+      </a>
+      {% endif %}
+    </div>
+
+    {% if not usuario_id %}
+
+    <section class="mt-8 animate-fadeUp">
+      <h2 class="text-2xl font-bold text-gray-800 mb-6">
+        ¿Qué puedes hacer con TuInventario?
+      </h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% set cards = [
+        {'color':'indigo','icon':'📦','title':'Inventario','text':'Gestiona tus productos fácilmente'},
+        {'color':'purple','icon':'📑','title':'Catálogos','text':'Organiza tus catálogos eficientemente.'},
+        {'color':'teal','icon':'👥','title':'Clientes','text':'Agrega y relaciona clientes con catálogos.'},
+        {'color':'pink','icon':'💰','title':'Finanzas','text':'Consulta pagos, abonos y estados de cuenta.'},
+        {'color':'red','icon':'⏰','title':'Alertas de Fechas','text':'Recibe notificaciones por vencimientos.'},
+        {'color':'yellow','icon':'🔍','title':'Filtro de Clientes','text':'Busca por nombre o estado financiero.'}
+        ] %}
+        {% for card in cards %}
+        <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition transform hover:scale-105">
+          <h3 class="text-{{ card.color }}-600 font-semibold mb-2">
+            {{ card.icon }} {{ card.title }}
+          </h3>
+          <p class="text-sm text-gray-600">{{ card.text }}</p>
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+    {% endif %}
+
+  </main>
+
+
+  <footer class="bg-gray-200 mt-12 py-4 text-center text-sm text-gray-600">
+    &copy; {{ year }} TuInventario. Todos los derechos reservados.
+  </footer>
+</body>
+
+</html>

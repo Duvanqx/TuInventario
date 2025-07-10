@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TuInventario - Iniciar Sesión</title>
+  <link href="{{ url_for('static', filename='css/output.css') }}" rel="stylesheet">
+</head>
+
+<body
+  class="min-h-screen flex items-center justify-center font-sans bg-gradient-to-br from-purple-700 via-indigo-600 to-blue-500 text-white overflow-hidden relative">
+
+
+  <div class="absolute inset-0 z-0 opacity-10 pointer-events-none">
+    <img src="{{ url_for('static', filename='img/pattern.svg') }}" alt="" class="w-full h-full object-cover">
+  </div>
+
+
+  <div class="bg-white rounded-xl shadow-2xl px-8 py-10 w-full max-w-md z-10 animate-fadeIn">
+
+
+    <div class="flex justify-center mb-6">
+      <a href="/"><img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo"
+          class="h-24 w-24 rounded-full border-4 border-indigo-300 shadow-md object-contain" /></a>
+    </div>
+
+
+    <h1 class="text-3xl font-bold text-indigo-700 text-center mb-2">Inicio de Sesión</h1>
+    <p class="text-center text-gray-600 mb-6 text-sm">Ingresa tus datos para acceder</p>
+
+
+    <form method="POST" class="space-y-4">
+
+      <div>
+        <label for="correo" class="block text-sm font-medium text-gray-700">Correo:</label>
+        <input type="email" name="correo" id="correo" required
+          class="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 outline-none text-gray-800 bg-white" />
+
+      </div>
+
+      <div>
+        <label for="contraseña" class="block text-sm font-medium text-gray-700">Contraseña:</label>
+        <div class="relative mt-1">
+          <input type="password" name="contraseña" id="contraseña" required
+            class="w-full px-4 py-2 border border-gray-300 rounded-md text-gray-800 bg-white focus:ring-2 focus:ring-indigo-500 outline-none text-base font-medium" />
+          <button type="button" onclick="togglePassword()"
+            class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-indigo-600 transition">
+            <svg id="eyeIcon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+              class="w-5 h-5 animate-fadeIn">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M15 12a3 3 0 11-6 0 3 3 0 016 0zm-9 0a9 9 0 0118 0 9 9 0 01-18 0z" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+
+      {% with messages = get_flashed_messages(with_categories=true) %}
+      {% for category, message in messages %}
+      <div class="text-sm text-red-500">{{ message }}</div>
+      {% endfor %}
+      {% endwith %}
+
+
+      <button type="submit"
+        class="w-full bg-indigo-600 text-white py-2 rounded-md hover:bg-indigo-700 transition-all shadow-md font-semibold">
+        Iniciar Sesión
+      </button>
+
+
+      <p class="text-center text-sm text-gray-600 mt-4">
+        ¿No tienes una cuenta?
+        <a href="/registro" class="text-indigo-600 font-medium hover:underline">Regístrate aquí</a>
+      </p>
+    </form>
+  </div>
+
+
+  <script>
+    function togglePassword() {
+      const input = document.getElementById('contraseña');
+      const icon = document.getElementById('eyeIcon');
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M13.875 18.825A10.05 10.05 0 0112 19c-5.25 0-9.618-3.365-11.25-8a10.05 10.05 0 012.847-4.43m16.043 2.647A9.975 9.975 0 0120.25 12c-.54 2.01-1.766 3.772-3.375 5.03M9.88 9.88a3 3 0 104.24 4.24M3 3l18 18"/>`;
+      } else {
+        input.type = 'password';
+        icon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M15 12a3 3 0 11-6 0 3 3 0 016 0zm-9 0a9 9 0 0118 0 9 9 0 01-18 0z"/>`;
+      }
+    }
+  </script>
+
+
+  <style>
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .animate-fadeIn {
+      animation: fadeIn 0.5s ease-out;
+    }
+  </style>
+
+</body>
+
+</html>
