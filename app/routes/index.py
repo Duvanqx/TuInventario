@@ -1,4 +1,4 @@
-from flask import Blueprint , render_template, session, redirect
+from flask import Blueprint , render_template, session
 index = Blueprint('index', __name__)
 
 @index.route('/')

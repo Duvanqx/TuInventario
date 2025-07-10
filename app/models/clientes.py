@@ -1,32 +1,30 @@
-def agregarClientes(usuario, nombre_completo, telefono, direccion, mysql):
-    cursor = mysql.connection.cursor()
-    cursor.execute("INSERT INTO clientes (id_usuario, nombre_completo, telefono, direccion) VALUES (%s, %s, %s, %s)",(usuario,nombre_completo,telefono,direccion))
-    mysql.connection.commit()
-    cursor.close()
+from app import db
+from app.models.modelos import Cliente
 
-def verClientes(usuario,mysql):
-    cursor = mysql.connection.cursor()
-    cursor.execute("SELECT * FROM clientes WHERE id_usuario = %s",(usuario,))
-    clientes = cursor.fetchall()
-    cursor.close()
-    return clientes
+def agregarClientes(usuario, nombre_completo, telefono, direccion):
+    nuevo = Cliente(
+        id_usuario=usuario,
+        nombre_completo=nombre_completo,
+        telefono=telefono,
+        direccion=direccion
+    )
+    db.session.add(nuevo)
+    db.session.commit()
 
-def eliminarClientes(id_cliente,mysql):
-    cursor= mysql.connection.cursor()
-    cursor.execute("DELETE FROM clientes WHERE  id_cliente = %s",(id_cliente,))
-    mysql.connection.commit()
-    cursor.close()
+def verClientes(usuario):
+    return Cliente.query.filter_by(id_usuario=usuario).all()
 
-def editarClientes(nombre_completo, telefono, direccion, id_cliente, mysql):
-    cursor = mysql.connection.cursor()
-    cursor.execute("UPDATE clientes SET nombre_completo = %s, telefono = %s, direccion = %s WHERE id_cliente = %s",(nombre_completo, telefono, direccion, id_cliente))
-    mysql.connection.commit()
-    cursor.close()
+def eliminarClientes(id_cliente):
+    Cliente.query.filter_by(id_cliente=id_cliente).delete()
+    db.session.commit()
 
-def informacionClientes(id_cliente,mysql):
-    cursor = mysql.connection.cursor()
-    cursor.execute("SELECT * FROM clientes WHERE id_cliente = %s",(id_cliente,))
-    cliente = cursor.fetchall()
-    cursor.close()
-    return cliente
+def editarClientes(nombre_completo, telefono, direccion, id_cliente):
+    cliente = Cliente.query.get(id_cliente)
+    if cliente:
+        cliente.nombre_completo = nombre_completo
+        cliente.telefono = telefono
+        cliente.direccion = direccion
+        db.session.commit()
 
+def informacionClientes(id_cliente):
+    return Cliente.query.filter_by(id_cliente=id_cliente).first()

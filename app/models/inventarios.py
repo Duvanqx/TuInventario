@@ -1,31 +1,36 @@
-def agregarProductos(usuario, nombre, categoria, cantidad, descripcion, precio, imagen, mysql):
-    cursor = mysql.connection.cursor()
-    cursor.execute("INSERT INTO productos(id_usuario, nombre, categoria, cantidad, descripcion, precio, imagen) VALUES (%s, %s, %s, %s, %s, %s, %s)",(usuario, nombre, categoria, cantidad, descripcion, precio, imagen))
-    mysql.connection.commit()
-    cursor.close()
+from app import db
+from app.models.modelos import Producto
 
-def verProductos(usuario, mysql):
-    cursor = mysql.connection.cursor()
-    cursor.execute("SELECT * FROM productos WHERE id_usuario = %s",(usuario,))
-    productos = cursor.fetchall()
-    cursor.close()
-    return productos
+def agregarProductos(usuario, nombre, categoria, cantidad, descripcion, precio, imagen):
+    nuevo = Producto(
+        id_usuario=usuario,
+        nombre=nombre,
+        categoria=categoria,
+        cantidad=cantidad,
+        descripcion=descripcion,
+        precio=precio,
+        imagen=imagen
+    )
+    db.session.add(nuevo)
+    db.session.commit()
 
-def editarProductos(nombre, categoria, cantidad, descripcion, precio, imagen, producto, mysql):
-    cursor = mysql.connection.cursor()
-    cursor.execute("UPDATE productos SET nombre = %s, categoria = %s, cantidad = %s, descripcion = %s, precio = %s, imagen = %s WHERE id_producto = %s",(nombre, categoria, cantidad, descripcion, precio, imagen, producto))
-    mysql.connection.commit()
-    cursor.close()
+def verProductos(usuario):
+    return Producto.query.filter_by(id_usuario=usuario).all()
 
-def obtenerProducto(producto, mysql):
-    cursor = mysql.connection.cursor()
-    cursor.execute("SELECT * FROM productos WHERE id_producto = %s",(producto,))
-    producto = cursor.fetchall()
-    cursor.close()
-    return producto
+def editarProductos(nombre, categoria, cantidad, descripcion, precio, imagen, producto_id):
+    producto = Producto.query.get(producto_id)
+    if producto:
+        producto.nombre = nombre
+        producto.categoria = categoria
+        producto.cantidad = cantidad
+        producto.descripcion = descripcion
+        producto.precio = precio
+        producto.imagen = imagen
+        db.session.commit()
 
-def elimarProductos(producto, mysql):
-    cursor = mysql.connection.cursor()
-    cursor.execute("DELETE FROM productos WHERE id_producto = %s",(producto,))
-    mysql.connection.commit()
-    cursor.close()
+def obtenerProducto(producto_id):
+    return Producto.query.filter_by(id_producto=producto_id).first()
+
+def eliminarProductos(producto_id):
+    Producto.query.filter_by(id_producto=producto_id).delete()
+    db.session.commit()

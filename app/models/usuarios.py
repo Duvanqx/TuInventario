@@ -1,15 +1,18 @@
-def registrarUsuario(nombres, apellidos, telefono, correo, contraseña_hash, mysql):
-    cursor = mysql.connection.cursor()
-    cursor.execute("INSERT INTO usuarios (nombres, apellidos, telefono, correo, contraseña) VALUES (%s, %s, %s, %s, %s)",
-                   (nombres, apellidos, telefono, correo, contraseña_hash))
-    mysql.connection.commit()
-    usuario = cursor.lastrowid
-    cursor.close()
-    return usuario
+from app.models.modelos import Usuario
 
-def ObtenerUsuario(correo, mysql):
-    cursor = mysql.connection.cursor()
-    cursor.execute("SELECT * FROM usuarios WHERE correo = %s",(correo,))
-    usuario = cursor.fetchone()
-    cursor.close()
-    return usuario
+from app import db
+
+def registrarUsuario(nombres, apellidos, telefono, correo, contraseña_hash):
+    usuario = Usuario(
+        nombres=nombres,
+        apellidos=apellidos,
+        telefono=telefono,
+        correo=correo,
+        contraseña=contraseña_hash
+    )
+    db.session.add(usuario)
+    db.session.commit()
+    return usuario.id_usuario
+
+def ObtenerUsuario(correo):
+    return Usuario.query.filter_by(correo=correo).first()

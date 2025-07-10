@@ -1,43 +1,35 @@
-def agregarCatalogos(usuario, nombre, fecha_inicio, fecha_fin, fecha_pago, foto,  mysql):
-    cursor = mysql.connection.cursor()
-    cursor.execute("INSERT INTO catalogos(id_usuario, nombre, fecha_inicio, fecha_fin, fecha_limite_pago, foto) VALUES (%s, %s, %s, %s, %s, %s)",
-                   (usuario, nombre, fecha_inicio, fecha_fin, fecha_pago, foto))
-    mysql.connection.commit()
-    cursor.close()
+from app import db
+from app.models.modelos import Catalogo
 
-def verCatalogos(id_usuario, mysql):
-    cursor = mysql.connection.cursor()
-    cursor.execute("SELECT * FROM catalogos WHERE id_usuario = %s",(id_usuario,))
-    catalogos_raw = cursor.fetchall()
-    cursor.close()
+def agregarCatalogos(usuario, nombre, fecha_inicio, fecha_fin, fecha_pago, foto):
+    nuevo = Catalogo(
+        id_usuario=usuario,
+        nombre=nombre,
+        fecha_inicio=fecha_inicio,
+        fecha_fin=fecha_fin,
+        fecha_limite_pago=fecha_pago,
+        foto=foto
+    )
+    db.session.add(nuevo)
+    db.session.commit()
 
-    catalogos = []
-    for c in catalogos_raw:
-        catalogos.append((
-            c[1],
-            c[2],
-            c[3],
-            c[4],
-            c[5],
-            c[6],
-        ))
-    return catalogos_raw
+def verCatalogos(id_usuario):
+    return Catalogo.query.filter_by(id_usuario=id_usuario).all()
 
-def eliminarCatalogos(id_catalogo, mysql):
-    cursor = mysql.connection.cursor()
-    cursor.execute("DELETE FROM catalogos WHERE id_catalogo = %s",(id_catalogo,))
-    mysql.connection.commit()
-    cursor.close()
+def eliminarCatalogos(id_catalogo):
+    Catalogo.query.filter_by(id_catalogo=id_catalogo).delete()
+    db.session.commit()
 
-def editarCatalogos(id_catalogo, ruta_foto, nombre, fecha_inicio, fecha_fin, fecha_pago, mysql):
-    cursor = mysql.connection.cursor()
-    cursor.execute("UPDATE catalogos SET nombre = %s, fecha_inicio = %s, fecha_fin = %s, fecha_limite_pago = %s, foto = %s WHERE id_catalogo = %s",(nombre,fecha_inicio, fecha_fin, fecha_pago, ruta_foto, id_catalogo))
-    mysql.connection.commit()
-    cursor.close()
+def editarCatalogos(id_catalogo, ruta_foto, nombre, fecha_inicio, fecha_fin, fecha_pago):
+    catalogo = Catalogo.query.get(id_catalogo)
+    if catalogo:
+        catalogo.nombre = nombre
+        catalogo.fecha_inicio = fecha_inicio
+        catalogo.fecha_fin = fecha_fin
+        catalogo.fecha_limite_pago = fecha_pago
+        if ruta_foto:
+            catalogo.foto = ruta_foto
+        db.session.commit()
 
-def informacionCatalogos(id_catalogo, mysql):
-    cursor = mysql.connection.cursor()
-    cursor.execute("SELECT * FROM catalogos WHERE id_catalogo = %s",(id_catalogo,))
-    catalogo = cursor.fetchall()
-    cursor.close()
-    return catalogo
+def informacionCatalogos(id_catalogo):
+    return Catalogo.query.filter_by(id_catalogo=id_catalogo).first()
