@@ -1,5 +1,7 @@
 from flask import Flask
-from flask_mysqldb import MySQL
+import pymysql
+pymysql.install_as_MySQLdb()
+from flask_mysqldb import MySQL 
 from app.routes.index import index
 from app.routes.registro import registro
 from app.routes.login import login
