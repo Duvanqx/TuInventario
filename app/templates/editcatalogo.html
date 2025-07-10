@@ -29,39 +29,41 @@
             <p class="text-sm text-gray-600 mb-6">Ingresa los siguientes datos:</p>
 
             <form method="POST" enctype="multipart/form-data" class="space-y-4">
-                {% for ca in catalogo %}
                 <div>
                     <label for="foto" class="block text-sm font-medium mb-1">📷 Imagen</label>
-                    <input type="file" name="foto" id="foto" required accept="image/*"
-                        class="w-full border border-gray-300 rounded-md px-4 py-2 bg-white focus:ring-2 focus:ring-indigo-500"  value="{{ ca[6] }}"/>
+                    <input type="file" name="foto" id="foto" accept="image/*"
+                        class="w-full border border-gray-300 rounded-md px-4 py-2 bg-white focus:ring-2 focus:ring-indigo-500" />
                 </div>
 
                 <div>
                     <label for="nombre" class="block text-sm font-medium mb-1">📑 Nombre</label>
                     <input type="text" name="nombre" id="nombre" required
-                        class="w-full border border-gray-300 rounded-md px-4 py-2 bg-white focus:ring-2 focus:ring-indigo-500" value="{{ ca[2] }}"/>
+                        class="w-full border border-gray-300 rounded-md px-4 py-2 bg-white focus:ring-2 focus:ring-indigo-500"
+                        value="{{ catalogo.nombre }}" />
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div>
                         <label for="fecha_inicio" class="block text-sm font-medium mb-1">📅 Fecha inicio</label>
                         <input type="date" name="fecha_inicio" id="fecha_inicio" required
-                            class="w-full border border-gray-300 rounded-md px-4 py-2 bg-white focus:ring-2 focus:ring-indigo-500" value="{{ ca[3] }}" />
+                            class="w-full border border-gray-300 rounded-md px-4 py-2 bg-white focus:ring-2 focus:ring-indigo-500"
+                            value="{{ catalogo.fecha_inicio }}" />
                     </div>
 
                     <div>
                         <label for="fecha_fin" class="block text-sm font-medium mb-1">📆 Fecha fin</label>
                         <input type="date" name="fecha_fin" id="fecha_fin" required
-                            class="w-full border border-gray-300 rounded-md px-4 py-2 bg-white focus:ring-2 focus:ring-indigo-500"  value="{{ ca[4] }}"/>
+                            class="w-full border border-gray-300 rounded-md px-4 py-2 bg-white focus:ring-2 focus:ring-indigo-500"
+                            value="{{ catalogo.fecha_fin }}" />
                     </div>
 
                     <div>
                         <label for="fecha_pago" class="block text-sm font-medium mb-1">💳 Límite de pago</label>
                         <input type="date" name="fecha_pago" id="fecha_pago" required
-                            class="w-full border border-gray-300 rounded-md px-4 py-2 bg-white focus:ring-2 focus:ring-indigo-500"  value="{{ ca[5] }}" />
+                            class="w-full border border-gray-300 rounded-md px-4 py-2 bg-white focus:ring-2 focus:ring-indigo-500"
+                            value="{{ catalogo.fecha_limite_pago }}" />
                     </div>
                 </div>
-                {% endfor %}
 
                 <div class="pt-4">
                     <button type="submit"
@@ -69,8 +71,8 @@
                         Editar
                     </button>
                 </div>
-
             </form>
+
         </div>
     </main>
 

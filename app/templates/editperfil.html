@@ -50,52 +50,52 @@
     });
   </script>
 
-<main class="flex items-center justify-center py-10 px-4 sm:px-6 lg:px-8 bg-white">
-  <div class="bg-white shadow-xl rounded-2xl overflow-hidden w-full max-w-2xl transform transition hover:scale-[1.02] duration-300">
-    <div class="bg-gradient-to-r from-indigo-700 to-purple-600 p-6 text-white text-center">
-      <h2 class="text-3xl font-bold">✏️ Editar Perfil</h2>
-      <p class="text-sm mt-1">Modifica tus datos personales</p>
+  <main class="flex items-center justify-center py-10 px-4 sm:px-6 lg:px-8 bg-white">
+    <div
+      class="bg-white shadow-xl rounded-2xl overflow-hidden w-full max-w-2xl transform transition hover:scale-[1.02] duration-300">
+      <div class="bg-gradient-to-r from-indigo-700 to-purple-600 p-6 text-white text-center">
+        <h2 class="text-3xl font-bold">✏️ Editar Perfil</h2>
+        <p class="text-sm mt-1">Modifica tus datos personales</p>
+      </div>
+
+      <form method="POST" class="p-6 space-y-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-700 text-sm">
+          <div>
+            <label for="nombres" class="block font-semibold text-gray-500">Nombres:</label>
+            <input type="text" id="nombres" name="nombres" value="{{ usuario.nombres }}"
+              class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 transition">
+          </div>
+          <div>
+            <label for="apellidos" class="block font-semibold text-gray-500">Apellidos:</label>
+            <input type="text" id="apellidos" name="apellidos" value="{{ usuario.apellidos }}"
+              class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 transition">
+          </div>
+          <div>
+            <label for="telefono" class="block font-semibold text-gray-500">Teléfono:</label>
+            <input type="tel" id="telefono" name="telefono" value="{{ usuario.telefono }}"
+              class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 transition">
+          </div>
+          <div>
+            <label for="correo" class="block font-semibold text-gray-500">Correo:</label>
+            <input type="email" id="correo" name="correo" value="{{ usuario.correo }}"
+              class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 transition">
+          </div>
+        </div>
+
+        <div class="flex justify-center gap-4 mt-6">
+          <button type="submit"
+            class="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white text-sm rounded-full shadow hover:bg-indigo-500 transition">
+            💾 Guardar Cambios
+          </button>
+          <a href="/ver_perfil"
+            class="flex items-center gap-2 px-4 py-2 bg-gray-300 text-gray-800 text-sm rounded-full shadow hover:bg-gray-200 transition">
+            🔙 Cancelar
+          </a>
+        </div>
+      </form>
+
     </div>
-
-    {% for u in usuario %}
-    <form method="POST" class="p-6 space-y-6">
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-700 text-sm">
-        <div>
-          <label for="nombres" class="block font-semibold text-gray-500">Nombres:</label>
-          <input type="text" id="nombres" name="nombres" value="{{ u[1] }}"
-                 class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 transition">
-        </div>
-        <div>
-          <label for="apellidos" class="block font-semibold text-gray-500">Apellidos:</label>
-          <input type="text" id="apellidos" name="apellidos" value="{{ u[2] }}"
-                 class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 transition">
-        </div>
-        <div>
-          <label for="telefono" class="block font-semibold text-gray-500">Teléfono:</label>
-          <input type="tel" id="telefono" name="telefono" value="{{ u[3] }}"
-                 class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 transition">
-        </div>
-        <div>
-          <label for="correo" class="block font-semibold text-gray-500">Correo:</label>
-          <input type="email" id="correo" name="correo" value="{{ u[4] }}"
-                 class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 transition">
-        </div>
-      </div>
-
-      <div class="flex justify-center gap-4 mt-6">
-        <button type="submit"
-                class="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white text-sm rounded-full shadow hover:bg-indigo-500 transition">
-          💾 Guardar Cambios
-        </button>
-        <a href="/ver_perfil"
-           class="flex items-center gap-2 px-4 py-2 bg-gray-300 text-gray-800 text-sm rounded-full shadow hover:bg-gray-200 transition">
-          🔙 Cancelar
-        </a>
-      </div>
-    </form>
-    {% endfor %}
-  </div>
-</main>
+  </main>
 
 
 

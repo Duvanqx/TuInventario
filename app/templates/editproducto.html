@@ -2,96 +2,92 @@
 <html lang="es">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TuInventario - Editar Producto</title>
-    <link href="{{ url_for('static', filename='css/output.css') }}" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TuInventario - Editar Producto</title>
+  <link href="{{ url_for('static', filename='css/output.css') }}" rel="stylesheet">
 </head>
 
 <body class="min-h-screen bg-gradient-to-br from-gray-100 via-purple-50 to-indigo-100 font-sans text-gray-800">
 
-
-    <header>
-        <nav class="bg-indigo-700 shadow-lg sticky top-0 z-50">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex justify-between items-center h-16">
-                    <a href="/" class="text-white text-2xl font-bold hover:text-purple-300 transition">TuInventario</a>
-                </div>
-            </div>
-        </nav>
-    </header>
-
-    <main class="max-w-lg mx-auto mt-10 px-4 sm:px-6">
-        <div class="bg-white shadow-lg rounded-xl p-6">
-            <h1 class="text-lg font-semibold text-indigo-700 mb-6">📦 Editar producto</h1>
-            {% for p in productos %}
-            <form method="POST" enctype="multipart/form-data" class="space-y-5">
-                <div>
-                    <label for="nombre" class="block text-sm font-medium text-gray-700 mb-1">📝 Nombre:</label>
-                    <input type="text" name="nombre" id="nombre" required value="{{ p[2] }}"
-                        class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 outline-none" />
-                </div>
-
-                <div>
-                    <label for="categoria" class="block text-sm font-medium text-gray-700 mb-1">📁 Categoría:</label>
-                    <input type="text" name="categoria" id="categoria" required value="{{ p[3] }}"
-                        class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 outline-none" />
-                </div>
-
-                <div>
-                    <label for="cantidad" class="block text-sm font-medium text-gray-700 mb-1">📊 Cantidad:</label>
-                    <input type="number" name="cantidad" id="cantidad" min="0" required value="{{ p[4] }}"
-                        class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 outline-none" />
-                </div>
-
-                <div>
-                    <label for="descripcion" class="block text-sm font-medium text-gray-700 mb-1">📝
-                        Descripción:</label>
-                    <textarea name="descripcion" id="descripcion" rows="3" required
-                        class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 outline-none resize-none">{{ p[5] }}</textarea>
-                </div>
-
-                <div>
-                    <label for="precio" class="block text-sm font-medium text-gray-700 mb-1">💰 Precio:</label>
-                    <div class="relative">
-                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">$</span>
-                        <input type="text" name="precio" id="precio" placeholder="$0" inputmode="decimal" required
-                            value="{{ p[6] }}"
-                            class="w-32 pl-7 pr-3 py-2 border border-gray-300 rounded-md text-sm text-gray-800 focus:ring-2 focus:ring-green-500 transition"
-                            oninput="this.value = formatCOP(this.value)" />
-                    </div>
-                </div>
-
-                <div>
-                    <label for="imagen" class="block text-sm font-medium text-gray-700 mb-1">🖼️ Imagen:</label>
-                    <input type="file" name="imagen" id="imagen" required accept="image/*" value="{{ p[7] }}" class="w-full text-sm file:mr-3 file:py-2 file:px-4 file:rounded-md file:border-0
-                      file:bg-indigo-600 file:text-white hover:file:bg-indigo-700 transition" />
-                </div>
-
-                <div class="pt-2">
-                    <button type="submit"
-                        class="w-full bg-green-600 text-white font-semibold py-2 rounded-md hover:bg-green-700 transition">
-                        Editar Producto
-                    </button>
-                </div>
-                {% endfor %}
-            </form>
+  <!-- Header -->
+  <header>
+    <nav class="bg-indigo-700 shadow-lg sticky top-0 z-50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+          <a href="/" class="text-white text-2xl font-bold hover:text-purple-300 transition">TuInventario</a>
         </div>
-    </main>
+      </div>
+    </nav>
+  </header>
 
+  <!-- Main -->
+  <main class="max-w-lg mx-auto mt-10 px-4 sm:px-6">
+    <div class="bg-white shadow-lg rounded-xl p-6">
+      <h1 class="text-lg font-semibold text-indigo-700 mb-6">📦 Editar producto</h1>
 
-    <script>
-        function formatCOP(valor) {
-            valor = valor.replace(/[^\d,]/g, "");
-            const partes = valor.split(",");
-            partes[0] = partes[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+      <form method="POST" enctype="multipart/form-data" class="space-y-5">
 
-            return partes.join(",");
-        }
-    </script>
+        <div>
+          <label for="nombre" class="block text-sm font-medium text-gray-700 mb-1">📝 Nombre:</label>
+          <input type="text" name="nombre" id="nombre" required value="{{ productos.nombre }}"
+            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 outline-none" />
+        </div>
 
+        <div>
+          <label for="categoria" class="block text-sm font-medium text-gray-700 mb-1">📁 Categoría:</label>
+          <input type="text" name="categoria" id="categoria" required value="{{ productos.categoria }}"
+            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 outline-none" />
+        </div>
 
+        <div>
+          <label for="cantidad" class="block text-sm font-medium text-gray-700 mb-1">📊 Cantidad:</label>
+          <input type="number" name="cantidad" id="cantidad" min="0" required value="{{ productos.cantidad }}"
+            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 outline-none" />
+        </div>
+
+        <div>
+          <label for="descripcion" class="block text-sm font-medium text-gray-700 mb-1">📝 Descripción:</label>
+          <textarea name="descripcion" id="descripcion" rows="3" required
+            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 outline-none resize-none">{{ productos.descripcion }}</textarea>
+        </div>
+
+        <div>
+          <label for="precio" class="block text-sm font-medium text-gray-700 mb-1">💰 Precio:</label>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">$</span>
+            <input type="text" name="precio" id="precio" placeholder="$0" inputmode="decimal" required
+              value="{{ productos.precio }}"
+              class="w-32 pl-7 pr-3 py-2 border border-gray-300 rounded-md text-sm text-gray-800 focus:ring-2 focus:ring-green-500 transition"
+              oninput="this.value = formatCOP(this.value)" />
+          </div>
+        </div>
+
+        <div>
+          <label for="imagen" class="block text-sm font-medium text-gray-700 mb-1">🖼️ Imagen:</label>
+          <input type="file" name="imagen" id="imagen" accept="image/*"
+            class="w-full text-sm file:mr-3 file:py-2 file:px-4 file:rounded-md file:border-0
+                   file:bg-indigo-600 file:text-white hover:file:bg-indigo-700 transition" />
+        </div>
+
+        <div class="pt-2">
+          <button type="submit"
+            class="w-full bg-green-600 text-white font-semibold py-2 rounded-md hover:bg-green-700 transition">
+            Editar Producto
+          </button>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <script>
+    function formatCOP(valor) {
+      valor = valor.replace(/[^\d,]/g, "");
+      const partes = valor.split(",");
+      partes[0] = partes[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+      return partes.join(",");
+    }
+  </script>
 
 </body>
-
 </html>

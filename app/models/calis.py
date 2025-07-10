@@ -12,26 +12,25 @@ def agregarCalis(usuario, catalogo, cliente, adeudado):
 
 def verCalis(usuario, id_catalogo):
     results = (
-        db.session.query(
-            Usuario.id_usuario,
-            Usuario.nombres.label("nombre_usuario"),
-            Catalogo.nombre.label("nombre_catalogo"),
-            Cliente.nombre_completo.label("nombre_cliente"),
-            Cali.id_cali,
-            Cali.adeudado,
-            func.IFNULL(func.sum(Pago.valor), 0).label("total_abonado"),
-            (Cali.adeudado - func.IFNULL(func.sum(Pago.valor), 0)).label("saldo_restante")
-        )
-        .join(Cali, Cali.id_usuario == Usuario.id_usuario)
-        .join(Catalogo, Catalogo.id_catalogo == Cali.id_catalogo)
+        db.session.query(Cali.id_cali, Cliente.nombre_completo.label("nombre_cliente"), Cali.adeudado,
+                         func.coalesce(func.sum(Pago.valor), 0).label("total_abonado"))
         .join(Cliente, Cliente.id_cliente == Cali.id_cliente)
         .outerjoin(Pago, Pago.id_cali == Cali.id_cali)
         .filter(Cali.id_usuario == usuario, Cali.id_catalogo == id_catalogo)
-        .group_by(Cali.id_cali, Usuario.id_usuario, Catalogo.nombre, Cliente.nombre_completo, Cali.adeudado, Usuario.nombres)
-        .order_by(Cliente.nombre_completo)
+        .group_by(Cali.id_cali, Cliente.nombre_completo, Cali.adeudado)
         .all()
     )
-    return results
+
+    return [
+        {
+            "id_cali": r.id_cali,
+            "nombre_cliente": r.nombre_cliente,
+            "adeudado": r.adeudado,
+            "total_abonado": r.total_abonado,
+            "saldo_restante": r.adeudado - r.total_abonado
+        } for r in results
+    ]
+
 
 def agregarAbonos(cali, valor, fecha):
     nuevo = Pago(id_cali=cali, valor=valor, fecha=fecha)
@@ -52,3 +51,6 @@ def obtenerCatalogos(id_cali, usuario):
 def eliminarCalis(id_cali):
     Cali.query.filter_by(id_cali=id_cali).delete()
     db.session.commit()
+
+def obtenerCali(id_cali, usuario):
+    return Cali.query.filter_by(id_cali=id_cali, id_usuario=usuario).first()

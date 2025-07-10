@@ -58,29 +58,28 @@
         <p class="text-sm mt-1">Tu información personal</p>
       </div>
 
-      {% for u in usuario %}
       <div class="p-6 space-y-6">
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-700 text-sm">
           <div>
             <label class="block font-semibold text-gray-500">Nombres:</label>
-            <p class="mt-1">{{ u[1] }}</p>
+            <p class="mt-1">{{ usuario.nombres }}</p>
           </div>
           <div>
             <label class="block font-semibold text-gray-500">Apellidos:</label>
-            <p class="mt-1">{{ u[2] }}</p>
+            <p class="mt-1">{{ usuario.apellidos }}</p>
           </div>
           <div>
             <label class="block font-semibold text-gray-500">Teléfono:</label>
-            <p class="mt-1">{{ u[3] }}</p>
+            <p class="mt-1">{{ usuario.telefono }}</p>
           </div>
           <div>
             <label class="block font-semibold text-gray-500">Correo:</label>
-            <p class="mt-1">{{ u[4] }}</p>
+            <p class="mt-1">{{ usuario.correo }}</p>
           </div>
         </div>
 
         <div class="flex justify-center gap-4 mt-4">
-          <a href="/editar_perfil/{{ u[0] }}"
+          <a href="/editar_perfil/{{ usuario.id_usuario }}"
             class="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white text-sm rounded-full shadow hover:bg-indigo-500 transition">
             ✏️ Editar Perfil
           </a>
@@ -90,7 +89,7 @@
           </a>
         </div>
       </div>
-      {% endfor %}
+
     </div>
   </main>
 

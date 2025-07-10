@@ -50,6 +50,7 @@ def editarCali(id_cali):
 
     return render_template('editcali.html', clientes=clientes)
 
+
 @cali.route('/eliminar_cali/<int:id_cali>')
 def eliminarCali(id_cali):
     catalogos = obtenerCatalogos(id_cali, session['usuario_id'])

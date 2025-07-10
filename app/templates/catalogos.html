@@ -9,7 +9,7 @@
 </head>
 
 <body
-    class="flex flex-col min-h-screen bg-gradient-to-tr from-gray-100 via-purple-50 to-indigo-100 font-sans text-gray-800">
+  class="flex flex-col min-h-screen bg-gradient-to-tr from-gray-100 via-purple-50 to-indigo-100 font-sans text-gray-800">
 
 
   <nav class="bg-indigo-700 shadow-lg sticky top-0 z-50">
@@ -61,41 +61,39 @@
       <div
         class="relative group bg-white rounded-2xl border border-gray-200 shadow hover:shadow-xl p-4 flex flex-col min-h-[360px] transition duration-300 ease-in-out">
 
-
-        <a href="/ver_cali/{{ c[0] }}" class="block space-y-3">
+        <a href="/ver_cali/{{ c.id_catalogo }}" class="block space-y-3">
           <img
-            src="{{ url_for('static', filename=c[6].replace('\\', '/').split('static/')[-1]) if c[6] else url_for('static', filename='img/no-image.png') }}"
+            src="{{ url_for('static', filename=c.foto.replace('\\', '/').split('static/')[-1]) if c.foto else url_for('static', filename='img/no-image.png') }}"
             alt="Imagen del catálogo"
             class="h-40 w-full object-cover rounded-xl ring-1 ring-gray-100 hover:ring-indigo-300 transition mb-3" />
 
-          <h3 class="text-indigo-700 font-semibold text-xl leading-snug line-clamp-2">📑 {{ c[2] }}</h3>
+          <h3 class="text-indigo-700 font-semibold text-xl leading-snug line-clamp-2">📑 {{ c.nombre }}</h3>
           <div class="text-base text-gray-700 space-y-1.5">
-            <p><span class="font-semibold text-gray-800">📅 Inicio:</span> {{ c[3].strftime('%d %b %Y') }}</p>
-            <p><span class="font-semibold text-gray-800">🛑 Fin:</span> {{ c[4].strftime('%d %b %Y') }}</p>
+            <p><span class="font-semibold text-gray-800">📅 Inicio:</span> {{ c.fecha_inicio.strftime('%d %b %Y') }}</p>
+            <p><span class="font-semibold text-gray-800">🛑 Fin:</span> {{ c.fecha_fin.strftime('%d %b %Y') }}</p>
 
-            {% set dias = (c[5] - hoy).days %}
+            {% set dias = (c.fecha_limite_pago - hoy).days %}
             <p>
               <span class="font-semibold text-gray-800">💰 Pago:</span>
               <span
                 class="font-semibold {% if dias == 0 %} text-red-800 {% elif dias > 0 and dias <= 3 %} text-orange-600 {% else %} text-green-700 {% endif %}">
-                {{ c[5].strftime('%d %b %Y') }}
+                {{ c.fecha_limite_pago.strftime('%d %b %Y') }}
               </span>
             </p>
-
           </div>
         </a>
 
-
-        <div class=" absolute bottom-4 left-1/2 -translate-x-1/2 flex justify-center gap-2 z-20">
-          <a href="/editar_catalogo/{{ c[0] }}" title="Editar catálogo"
+        <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex justify-center gap-2 z-20">
+          <a href="/editar_catalogo/{{ c.id_catalogo }}" title="Editar catálogo"
             class="w-9 h-9 bg-yellow-400 text-white rounded-full flex items-center justify-center text-base hover:bg-yellow-500 transition">✏️</a>
-          <a href="/eliminar_catalogo/{{ c[0] }}" title="Eliminar catálogo"
+          <a href="/eliminar_catalogo/{{ c.id_catalogo }}" title="Eliminar catálogo"
             class="w-9 h-9 bg-red-500 text-white rounded-full flex items-center justify-center text-base hover:bg-red-600 transition">🗑️</a>
         </div>
       </div>
       {% endfor %}
     </section>
   </main>
+
 
 
   <footer class="bg-gray-200 mt-auto py-4 text-center text-sm text-gray-600">
