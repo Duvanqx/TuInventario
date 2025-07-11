@@ -67,9 +67,9 @@
             <tr class="border-t hover:bg-indigo-50">
               <td class="px-4 py-2">{{ p.cliente }}</td>
               <td class="px-4 py-2 text-green-700 font-medium">
-                ${{ "{:,.0f}".format(cl.total_abonado) | replace(",", ".") }}
+                ${{ "{:,.0f}".format(p.monto_pago) | replace(",", ".") }}
               </td>
-              <td class="px-4 py-2">{{ p.fecha_pago.strftime("%Y-%m-%d %H:%M") }}</td>
+              <td class="px-4 py-2">{{ p.fecha_pago.strftime("%d de %B de %Y a las %H:%M") }}</td>
             </tr>
             {% endfor %}
           </tbody>
