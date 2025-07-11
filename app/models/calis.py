@@ -1,5 +1,5 @@
 from app import db
-from app.models.modelos import Cliente, Cali, Pago, Catalogo, Usuario
+from app.models.modelos import Cliente, Cali, Pago
 from sqlalchemy.sql import func
 
 def verClientes(usuario_id):

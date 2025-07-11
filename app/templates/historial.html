@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TuInventario - Historial</title>
+  <link href="{{ url_for('static', filename='css/output.css') }}" rel="stylesheet">
+</head>
+
+<body class="flex flex-col min-h-screen bg-gradient-to-tr from-gray-100 via-purple-50 to-indigo-100 font-sans text-gray-800">
+
+  <!-- 🔝 Navegación -->
+  <nav class="bg-indigo-700 shadow-lg sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        <a href="/" class="text-white text-2xl font-bold hover:text-purple-300 transition">TuInventario</a>
+        <button id="menuToggle" class="text-white sm:hidden focus:outline-none">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+        <ul class="hidden sm:flex space-x-4 text-sm font-medium text-white">
+          <li><a href="/" class="hover:text-purple-200 transition">🏠 Inicio</a></li>
+          <li><a href="/ver_catalogo" class="hover:text-purple-200 transition">📑 Catálogos</a></li>
+          <li><a href="/ver_cliente" class="hover:text-purple-200 transition">👥 Clientes</a></li>
+          <li><a href="/ver_perfil" class="hover:text-purple-200 transition">👤 Cuenta</a></li>
+          <li><a href="/logout" class="text-red-300 hover:text-red-400 transition">🔓 Salir</a></li>
+        </ul>
+      </div>
+      <div id="mobileMenu" class="sm:hidden hidden flex-col space-y-2 pt-4 pb-4 text-white text-sm">
+        <a href="/" class="block px-3 py-2 hover:bg-indigo-600 rounded">🏠 Inicio</a>
+        <a href="/ver_catalogo" class="block px-3 py-2 hover:bg-indigo-600 rounded">📑 Catálogos</a>
+        <a href="/ver_cliente" class="block px-3 py-2 hover:bg-indigo-600 rounded">👥 Clientes</a>
+        <a href="/ver_perfil" class="block px-3 py-2 hover:bg-indigo-600 rounded">👤 Cuenta</a>
+        <a href="/logout" class="block px-3 py-2 hover:bg-red-600 rounded">🔓 Salir</a>
+      </div>
+    </div>
+  </nav>
+
+  <script>
+    const toggle = document.getElementById('menuToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+    toggle.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+  </script>
+
+  <!-- 📜 Historial de pagos -->
+  <main class="w-full px-4 py-6">
+    <div class="max-w-4xl mx-auto space-y-6">
+      <h1 class="text-2xl font-bold text-indigo-700">📜 Historial de pagos</h1>
+
+      {% if pagos %}
+      <div class="overflow-x-auto bg-white shadow rounded-xl p-4">
+        <table class="min-w-full text-sm text-left table-auto">
+          <thead class="text-indigo-700 font-semibold border-b">
+            <tr>
+              <th class="px-4 py-2">👤 Cliente</th>
+              <th class="px-4 py-2">💰 Monto</th>
+              <th class="px-4 py-2">📅 Fecha</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for p in pagos %}
+            <tr class="border-t hover:bg-indigo-50">
+              <td class="px-4 py-2">{{ p.cliente }}</td>
+              <td class="px-4 py-2">${{ "{:.2f}".format(p.monto_pago) }}</td>
+              <td class="px-4 py-2">{{ p.fecha_pago.strftime("%Y-%m-%d %H:%M") }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% else %}
+      <p class="text-center text-gray-500 py-6">No hay pagos registrados aún.</p>
+      {% endif %}
+    </div>
+  </main>
+
+  <!-- 📌 Footer -->
+  <footer class="bg-gray-200 mt-auto py-4 text-center text-sm text-gray-600">
+    &copy; {{ year }} TuInventario. Todos los derechos reservados.
+  </footer>
+
+</body>
+</html>
