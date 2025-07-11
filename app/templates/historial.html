@@ -8,7 +8,8 @@
   <link href="{{ url_for('static', filename='css/output.css') }}" rel="stylesheet">
 </head>
 
-<body class="flex flex-col min-h-screen bg-gradient-to-tr from-gray-100 via-purple-50 to-indigo-100 font-sans text-gray-800">
+<body
+  class="flex flex-col min-h-screen bg-gradient-to-tr from-gray-100 via-purple-50 to-indigo-100 font-sans text-gray-800">
 
   <!-- 🔝 Navegación -->
   <nav class="bg-indigo-700 shadow-lg sticky top-0 z-50">
@@ -65,7 +66,9 @@
             {% for p in pagos %}
             <tr class="border-t hover:bg-indigo-50">
               <td class="px-4 py-2">{{ p.cliente }}</td>
-              <td class="px-4 py-2">${{ "{:.2f}".format(p.monto_pago) }}</td>
+              <td class="px-4 py-2 text-green-700 font-medium">
+                ${{ "{:,.0f}".format(cl.total_abonado) | replace(",", ".") }}
+              </td>
               <td class="px-4 py-2">{{ p.fecha_pago.strftime("%Y-%m-%d %H:%M") }}</td>
             </tr>
             {% endfor %}
@@ -84,4 +87,5 @@
   </footer>
 
 </body>
+
 </html>
